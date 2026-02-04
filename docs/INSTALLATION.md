@@ -10,14 +10,15 @@ This guide provides detailed instructions for installing and configuring Azure C
 
 ## Downloads
 
-Download the appropriate files for your operating system:
+Download from the [GitHub Releases page](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview):
 
 | Component | Windows | macOS | Linux |
 |-----------|---------|-------|-------|
-| **VS Code Extension** | [vscode-cosmosdb-0.31.1.vsix](https://onedrive.example.com/vsix/win) | [vscode-cosmosdb-0.31.1.vsix](https://onedrive.example.com/vsix/mac) | [vscode-cosmosdb-0.31.1.vsix](https://onedrive.example.com/vsix/linux) |
-| **Cosmos Shell** | [CosmosShell-win-x64.zip](https://onedrive.example.com/shell/win) | [CosmosShell-osx-x64.zip](https://onedrive.example.com/shell/mac) | [CosmosShell-linux-x64.zip](https://onedrive.example.com/shell/linux) |
+| **VS Code Extension** | [vscode-cosmosdb-0.31.1.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/vscode-cosmosdb-0.31.1.vsix) | ⬅️ Same file | ⬅️ Same file |
+| **Cosmos Shell** | [cosmos_shell_win-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_win-x64.zip) | [cosmos_shell_osx-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_osx-x64.zip) | [cosmos_shell_linux-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_linux-x64.zip) |
+| **Cosmos Shell (ARM)** | — | — | [cosmos_shell_linux-arm64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_linux-arm64.zip) |
 
-> 📁 [Browse all downloads on OneDrive](https://onedrive.example.com/cosmosshell)
+> 📁 [Browse all downloads](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview)
 
 ---
 
