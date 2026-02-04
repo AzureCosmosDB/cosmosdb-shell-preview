@@ -4,8 +4,6 @@
 
 Azure Cosmos DB Shell is a powerful command-line interface for Azure Cosmos DB that enables you to interact with your databases using intuitive bash-like commands. It features optional MCP (Model Context Protocol) server support for AI-powered automation.
 
-![Cosmos DB Shell](assets/cosmos-shell-banner.png)
-
 ## ✨ Features
 
 - **Bash-like Navigation** - Use familiar `ls` and `cd` commands to explore databases and containers
