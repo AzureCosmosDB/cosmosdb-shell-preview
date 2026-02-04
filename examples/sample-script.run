@@ -1,0 +1,41 @@
+# Cosmos Shell Example Script
+# This script demonstrates basic operations
+
+# Define a helper function to ensure a container exists
+def ensure_container [db container pk] {
+    mkdb $db
+    cd $db
+    mkcon $container $pk
+    cd $container
+}
+
+# Define a function to seed sample data
+def seed_sample_data {
+    echo '[
+        {"id": "user1", "pk": "users", "name": "Alice", "email": "alice@example.com"},
+        {"id": "user2", "pk": "users", "name": "Bob", "email": "bob@example.com"},
+        {"id": "user3", "pk": "users", "name": "Charlie", "email": "charlie@example.com"}
+    ]' | mkitem
+}
+
+# Define a function to query and display users
+def list_users {
+    query "SELECT c.id, c.name, c.email FROM c WHERE c.pk = 'users'"
+}
+
+# Main script execution
+# Usage: ./sample-script.run "https://your-account.documents.azure.com:443/"
+
+echo "Connecting to Cosmos DB..."
+connect $1
+
+echo "Setting up sample database and container..."
+ensure_container sampledb users /pk
+
+echo "Seeding sample data..."
+seed_sample_data
+
+echo "Listing users..."
+list_users
+
+echo "Done!"

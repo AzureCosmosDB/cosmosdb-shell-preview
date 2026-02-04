@@ -1,0 +1,7 @@
+{
+    "servers": {
+        "localCosmosShellServer": {
+            "url": "http://localhost:6128"
+        }
+    }
+}
