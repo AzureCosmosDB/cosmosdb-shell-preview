@@ -6,19 +6,17 @@ This guide provides detailed instructions for installing and configuring Azure C
 
 - **VS Code** version 1.103 or later (for MCP auto-start support)
 - **Azure Account** with access to Azure Cosmos DB resources
-- **.NET SDK 9.0.301** or later (only if building from source)
+- **.NET SDK 9.0.301** or later (required to install the shell as a .NET global tool)
 
 ## Downloads
 
-Download from the [GitHub Releases page](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview):
+The **Cosmos Shell** is distributed as a .NET global tool on NuGet — no manual downloads or extraction required. See [Step 2](#step-2-install-cosmos-shell-from-nuget) below.
 
-| Component | Windows | macOS | Linux |
-|-----------|---------|-------|-------|
-| **VS Code Extension** | [vscode-cosmosdb-0.31.1.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/vscode-cosmosdb-0.31.1.vsix) | ⬅️ Same file | ⬅️ Same file |
-| **Cosmos Shell** | [cosmos_shell_win-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_win-x64.zip) | [cosmos_shell_osx-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_osx-x64.zip) | [cosmos_shell_linux-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_linux-x64.zip) |
-| **Cosmos Shell (ARM)** | — | — | [cosmos_shell_linux-arm64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_linux-arm64.zip) |
+The **VS Code Extension** is available from the [GitHub Releases page](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview):
 
-> 📁 [Browse all downloads](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview)
+| Component | Download |
+|-----------|----------|
+| **VS Code Extension** | [vscode-cosmosdb-0.31.1.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/vscode-cosmosdb-0.31.1.vsix) |
 
 ---
 
@@ -55,69 +53,49 @@ Then restart VS Code.
 
 ---
 
-## Step 2: Download and Extract Cosmos Shell
+## Step 2: Install Cosmos Shell from NuGet
 
-1. Download `CosmosShell.zip` for your platform
-2. Extract the archive to a permanent location:
-
-### Windows
-
-```powershell
-# Example: Extract to Program Files
-Expand-Archive -Path "CosmosShell.zip" -DestinationPath "C:\Program Files\CosmosShell"
-```
-
-The executable will be at: `C:\Program Files\CosmosShell\win-x64\CosmosShell.exe`
-
-### macOS
+Cosmos Shell is published as a .NET global tool. Install it from any terminal:
 
 ```bash
-# Example: Extract to Applications
-unzip CosmosShell.zip -d ~/Applications/CosmosShell
+dotnet tool install --global CosmosDBShell --prerelease
 ```
 
-The executable will be at: `~/Applications/CosmosShell/osx-x64/CosmosShell`
+This installs the `CosmosDBShell` command and makes it available on your `PATH` for all platforms (Windows, macOS, Linux — including ARM). No manual download, extraction, or `chmod`/`xattr` steps are required.
 
-### Linux
+### Verify the installation
 
 ```bash
-# Example: Extract to opt
-sudo unzip CosmosShell.zip -d /opt/CosmosShell
+CosmosDBShell --version
 ```
 
-The executable will be at: `/opt/CosmosShell/linux-x64/CosmosShell`
+### Upgrade later
+
+```bash
+dotnet tool update --global CosmosDBShell --prerelease
+```
+
+> 💡 If `CosmosDBShell` is not found after install, ensure the .NET tools directory is on your `PATH` (typically `%USERPROFILE%\.dotnet\tools` on Windows or `~/.dotnet/tools` on macOS/Linux).
+
+### Alternative: Self-contained ZIP downloads (no .NET SDK required)
+
+If you can't or don't want to use NuGet / `dotnet tool`, self-contained preview builds are published as ZIP files on the [`Azure/CosmosDBShell` releases page](https://github.com/Azure/CosmosDBShell/releases/tag/1.0-preview). These bundles include the .NET runtime, so no .NET SDK install is needed.
+
+1. Download the ZIP for your platform (Windows, macOS, or Linux — including ARM) from the [1.0-preview release](https://github.com/Azure/CosmosDBShell/releases/tag/1.0-preview).
+2. Extract the archive to a permanent location.
+3. **macOS/Linux only** — mark the executable as runnable, and on macOS remove the quarantine attribute:
+
+   ```bash
+   chmod +x /path/to/CosmosDBShell
+   # macOS only:
+   xattr -d com.apple.quarantine /path/to/CosmosDBShell
+   ```
+
+4. When configuring VS Code in [Step 3](#step-3-configure-vs-code-settings), set `cosmosDB.shell.path` to the **full absolute path** of the extracted executable instead of the short command name.
 
 ---
 
-## Step 3: Set Executable Permissions (macOS/Linux)
-
-### Linux
-
-Make the shell executable:
-
-```bash
-chmod +x /opt/CosmosShell/linux-x64/CosmosShell
-```
-
-### macOS
-
-Make the shell executable and remove the quarantine attribute:
-
-```bash
-# Make executable
-chmod +x ~/Applications/CosmosShell/osx-x64/CosmosShell
-
-# Remove quarantine (REQUIRED - macOS will refuse to run otherwise)
-xattr -d com.apple.quarantine ~/Applications/CosmosShell/osx-x64/CosmosShell
-```
-
-> ⚠️ **Important:** The `xattr` command is required because macOS quarantines files downloaded from the internet. Without this step, you'll see a security warning and the shell won't run.
-
-If you see "xattr: No such xattr: com.apple.quarantine", the file wasn't quarantined and you can proceed.
-
----
-
-## Step 4: Configure VS Code Settings
+## Step 3: Configure VS Code Settings
 
 You need to tell VS Code where to find the Cosmos Shell executable.
 
@@ -139,29 +117,22 @@ You need to tell VS Code where to find the Cosmos Shell executable.
 **Windows:**
 ```json
 {
-    "cosmosDB.shell.path": "C:\\Program Files\\CosmosShell\\win-x64\\CosmosShell.exe"
+    "cosmosDB.shell.path": "CosmosDBShell.exe"
 }
 ```
 
-**macOS:**
+**macOS/Linux:**
 ```json
 {
-    "cosmosDB.shell.path": "/Users/yourname/Applications/CosmosShell/osx-x64/CosmosShell"
+    "cosmosDB.shell.path": "CosmosDBShell"
 }
 ```
 
-**Linux:**
-```json
-{
-    "cosmosDB.shell.path": "/opt/CosmosShell/linux-x64/CosmosShell"
-}
-```
-
-> ⚠️ **Note:** Use the full absolute path to the executable. On Windows, use double backslashes (`\\`) or forward slashes (`/`) in the path.
+> 💡 Since `CosmosDBShell` is installed as a .NET global tool and available on your `PATH`, you can simply use the command name. If your `PATH` isn't picked up by VS Code, use the full absolute path instead (e.g., `%USERPROFILE%\\.dotnet\\tools\\CosmosDBShell.exe` on Windows or `~/.dotnet/tools/CosmosDBShell` on macOS/Linux).
 
 ---
 
-## Step 5: Verify Installation
+## Step 4: Verify Installation
 
 1. Open VS Code
 2. Open the **Azure** sidebar (click the Azure icon in the Activity Bar)
@@ -187,25 +158,22 @@ The terminal should open with the Cosmos Shell connected to your selected resour
 
 Ensure `cosmosDB.shell.path` is set in your VS Code settings and points to the correct executable.
 
-### "Permission denied" (Linux/macOS)
+### `CosmosDBShell` command not found
 
-Run `chmod +x` on the shell executable:
+Ensure the .NET global tools folder is on your `PATH`:
+
+- **Windows:** `%USERPROFILE%\.dotnet\tools`
+- **macOS/Linux:** `~/.dotnet/tools`
+
+Restart your terminal (and VS Code) after installing the tool so the updated `PATH` is picked up.
+
+### `dotnet` command not found
+
+Install the [.NET SDK 9.0.301 or later](https://dotnet.microsoft.com/download), then re-run:
+
 ```bash
-chmod +x /path/to/CosmosShell
+dotnet tool install --global CosmosDBShell --prerelease
 ```
-
-### "Cannot be opened because it is from an unidentified developer" (macOS)
-
-Run the `xattr` command to remove the quarantine flag:
-```bash
-xattr -d com.apple.quarantine /path/to/CosmosShell
-```
-
-### "The specified executable is not valid"
-
-- Verify you downloaded the correct platform version
-- Ensure the file isn't corrupted (re-download if necessary)
-- Check that you extracted all files from the archive
 
 ### VS Code extension doesn't appear after installation
 
@@ -233,7 +201,11 @@ xattr -d com.apple.quarantine /path/to/CosmosShell
 
 ### Remove Cosmos Shell
 
-Delete the extracted folder containing the shell executable.
+Uninstall the .NET global tool:
+
+```bash
+dotnet tool uninstall --global CosmosDBShell
+```
 
 ### Remove Settings
 

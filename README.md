@@ -18,7 +18,7 @@ Azure Cosmos DB Shell is a powerful command-line interface for Azure Cosmos DB t
 - [Quick Start](#-quick-start)
 - [Installation](#-installation)
   - [VS Code Extension](#1-install-the-vs-code-extension)
-  - [Cosmos Shell Setup](#2-download-and-configure-cosmos-shell)
+  - [Cosmos Shell Setup](#2-install-cosmos-shell-from-nuget)
 - [MCP Server Setup](#-mcp-server-setup-optional)
 - [Usage Guide](#-usage-guide)
 - [Documentation](#-documentation)
@@ -28,23 +28,21 @@ Azure Cosmos DB Shell is a powerful command-line interface for Azure Cosmos DB t
 
 ## 🚀 Quick Start
 
-1. Download the [VS Code extension and Cosmos Shell binaries](#-downloads)
-2. Install the extension and configure the shell path
+1. Install the [VS Code extension](#1-install-the-vs-code-extension)
+2. Install Cosmos Shell from NuGet: `dotnet tool install --global CosmosDBShell --prerelease`
 3. Connect to your Azure account in VS Code
 4. Right-click a Cosmos DB resource and select **"Launch Cosmos Shell"**
 5. Start exploring with `ls`, `cd`, and `query` commands!
 
 ## 📥 Downloads
 
-Download from the [GitHub Releases page](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview):
+The **Cosmos Shell** is distributed as a .NET global tool on NuGet — no manual downloads required. See [Installation](#-installation) below.
 
-| Component | Windows | macOS | Linux |
-|-----------|---------|-------|-------|
-| **VS Code Extension** | [vscode-cosmosdb-0.31.1.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/vscode-cosmosdb-0.31.1.vsix) | ⬅️ Same file | ⬅️ Same file |
-| **Cosmos Shell** | [cosmos_shell_win-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_win-x64.zip) | [cosmos_shell_osx-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_osx-x64.zip) | [cosmos_shell_linux-x64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_linux-x64.zip) |
-| **Cosmos Shell (ARM)** | — | — | [cosmos_shell_linux-arm64.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/cosmos_shell_linux-arm64.zip) |
+The **VS Code Extension** is available from the [GitHub Releases page](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview):
 
-> 📁 [Browse all downloads](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview)
+| Component | Download |
+|-----------|----------|
+| **VS Code Extension** | [vscode-cosmosdb-0.31.1.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/vscode-cosmosdb-0.31.1.vsix) |
 
 ---
 
@@ -59,52 +57,44 @@ Download from the [GitHub Releases page](https://github.com/AzureCosmosDB/cosmos
 5. Select the downloaded `.vsix` file (or drag & drop it into the Extensions sidebar)
 6. **Restart VS Code**
 
-### 2. Download and Configure Cosmos Shell
+### 2. Install Cosmos Shell from NuGet
 
-#### Step 1: Extract the Shell
+Cosmos Shell is published as a .NET global tool. Install it from any terminal:
 
-1. Download `CosmosShell.zip` for your platform from [Downloads](#-downloads)
-2. Extract the archive
-3. Navigate to the subfolder for your platform:
-   - `win-x64` for Windows
-   - `osx-x64` for macOS
-   - `linux-x64` for Linux
-
-#### Step 2: Set Executable Permissions (macOS/Linux only)
-
-**Linux:**
 ```bash
-chmod +x "/path/to/CosmosShell"
+dotnet tool install --global CosmosDBShell --prerelease
 ```
 
-**macOS:**
-```bash
-chmod +x "/path/to/CosmosShell"
-xattr -d com.apple.quarantine "/path/to/CosmosShell"
-```
+This installs the `CosmosDBShell` command on Windows, macOS, and Linux (including ARM). No manual download, extraction, or permission changes are required.
 
-> ⚠️ The `xattr` command removes the quarantine flag that macOS applies to downloaded files.
+> 💡 Requires the [.NET SDK 9.0.301](https://dotnet.microsoft.com/download) or later. Upgrade later with `dotnet tool update --global CosmosDBShell --prerelease`.
 
-#### Step 3: Configure VS Code Settings
+#### Configure VS Code Settings
 
 1. Open VS Code Settings (`Ctrl+,` / `Cmd+,`)
 2. Search for `cosmosDB.shell.path`
 3. Click **"Edit in settings.json"**
-4. Add the full path to your CosmosShell executable:
+4. Set the value to the `CosmosDBShell` command:
 
 **Windows:**
 ```json
 {
-    "cosmosDB.shell.path": "C:\\path\\to\\CosmosShell.exe"
+    "cosmosDB.shell.path": "CosmosDBShell.exe"
 }
 ```
 
 **macOS/Linux:**
 ```json
 {
-    "cosmosDB.shell.path": "/path/to/CosmosShell"
+    "cosmosDB.shell.path": "CosmosDBShell"
 }
 ```
+
+> 💡 If VS Code can't find the command, use the full path to the .NET tools folder — typically `%USERPROFILE%\\.dotnet\\tools\\CosmosDBShell.exe` on Windows or `~/.dotnet/tools/CosmosDBShell` on macOS/Linux.
+
+#### Alternative: Self-contained ZIP (no .NET SDK required)
+
+Prefer not to use NuGet / `dotnet tool`? Self-contained preview builds (with the .NET runtime bundled) are published as ZIPs on the [`Azure/CosmosDBShell` releases page](https://github.com/Azure/CosmosDBShell/releases/tag/1.0-preview). Download the archive for your platform, extract it, and point `cosmosDB.shell.path` at the extracted executable. On macOS/Linux, run `chmod +x` on the binary (and `xattr -d com.apple.quarantine` on macOS).
 
 ---
 
