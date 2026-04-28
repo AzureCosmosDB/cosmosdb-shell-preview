@@ -36,13 +36,16 @@ Azure Cosmos DB Shell is a powerful command-line interface for Azure Cosmos DB t
 
 ## 📥 Downloads
 
-The **Cosmos Shell** is distributed as a .NET global tool on NuGet — no manual downloads required. See [Installation](#-installation) below.
+The latest preview builds are available from the [cosmosdb-shell-preview-1.0.213 GitHub release](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview-1.0.213). The release contains ZIP archives with the self-contained shell executable and the latest VS Code extension VSIX.
 
-The **VS Code Extension** is available from the [GitHub Releases page](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview):
-
-| Component | Download |
-|-----------|----------|
-| **VS Code Extension** | [vscode-cosmosdb-0.31.1.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/vscode-cosmosdb-0.31.1.vsix) |
+| Component | Platform | Version | Download |
+|-----------|----------|---------|----------|
+| **Cosmos Shell ZIP** | Windows x64 | 1.0.213-preview | [cosmos_shell_win-x64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_win-x64_1.0.213-preview.zip) |
+| **Cosmos Shell ZIP** | macOS x64 | 1.0.213-preview | [cosmos_shell_osx-x64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_osx-x64_1.0.213-preview.zip) |
+| **Cosmos Shell ZIP** | macOS arm64 | 1.0.213-preview | [cosmos_shell_osx-arm64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_osx-arm64_1.0.213-preview.zip) |
+| **Cosmos Shell ZIP** | Linux x64 | 1.0.213-preview | [cosmos_shell_linux-x64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_linux-x64_1.0.213-preview.zip) |
+| **Cosmos Shell ZIP** | Linux arm64 | 1.0.213-preview | [cosmos_shell_linux-arm64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_linux-arm64_1.0.213-preview.zip) |
+| **VS Code Extension** | All platforms | 0.33.3 | [vscode-cosmosdb-0.33.3.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/vscode-cosmosdb-0.33.3.vsix) |
 
 ---
 
@@ -50,7 +53,7 @@ The **VS Code Extension** is available from the [GitHub Releases page](https://g
 
 ### 1. Install the VS Code Extension
 
-1. Download `vscode-cosmosdb-0.31.1.vsix` for your OS from the [Downloads](#-downloads) section
+1. Download `vscode-cosmosdb-0.33.3.vsix` from the [Downloads](#-downloads) section
 2. Open **VS Code**
 3. Open the **Extensions** sidebar (`Ctrl+Shift+X` / `Cmd+Shift+X`)
 4. Click the `...` menu (top-right) → **Install from VSIX...**
@@ -67,34 +70,34 @@ dotnet tool install --global CosmosDBShell --prerelease
 
 This installs the `CosmosDBShell` command on Windows, macOS, and Linux (including ARM). No manual download, extraction, or permission changes are required.
 
-> 💡 Requires the [.NET SDK 9.0.301](https://dotnet.microsoft.com/download) or later. Upgrade later with `dotnet tool update --global CosmosDBShell --prerelease`.
+> 💡 Requires the [.NET SDK 10.0](https://dotnet.microsoft.com/download) or later. Upgrade later with `dotnet tool update --global CosmosDBShell --prerelease`.
 
-#### Configure VS Code Settings
+#### Alternative: Self-contained ZIP (no .NET SDK required)
+
+Prefer not to use NuGet / `dotnet tool`? Self-contained preview builds (with the .NET runtime bundled) are published as ZIPs on the [cosmosdb-shell-preview-1.0.213 GitHub release](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview-1.0.213). Download the archive for your platform and extract it. On macOS/Linux, run `chmod +x` on the binary (and `xattr -d com.apple.quarantine` on macOS).
+
+##### Configure VS Code Settings
+
+Only configure `cosmosDB.shell.path` if you are using a self-contained ZIP or VS Code cannot find the globally installed `CosmosDBShell` command.
 
 1. Open VS Code Settings (`Ctrl+,` / `Cmd+,`)
 2. Search for `cosmosDB.shell.path`
 3. Click **"Edit in settings.json"**
-4. Set the value to the `CosmosDBShell` command:
+4. Set the value to the full absolute path of the extracted executable:
 
 **Windows:**
 ```json
 {
-    "cosmosDB.shell.path": "CosmosDBShell.exe"
+    "cosmosDB.shell.path": "C:\\path\\to\\CosmosDBShell.exe"
 }
 ```
 
 **macOS/Linux:**
 ```json
 {
-    "cosmosDB.shell.path": "CosmosDBShell"
+    "cosmosDB.shell.path": "/path/to/CosmosDBShell"
 }
 ```
-
-> 💡 If VS Code can't find the command, use the full path to the .NET tools folder — typically `%USERPROFILE%\\.dotnet\\tools\\CosmosDBShell.exe` on Windows or `~/.dotnet/tools/CosmosDBShell` on macOS/Linux.
-
-#### Alternative: Self-contained ZIP (no .NET SDK required)
-
-Prefer not to use NuGet / `dotnet tool`? Self-contained preview builds (with the .NET runtime bundled) are published as ZIPs on the [`Azure/CosmosDBShell` releases page](https://github.com/Azure/CosmosDBShell/releases/tag/1.0-preview). Download the archive for your platform, extract it, and point `cosmosDB.shell.path` at the extracted executable. On macOS/Linux, run `chmod +x` on the binary (and `xattr -d com.apple.quarantine` on macOS).
 
 ---
 
@@ -291,8 +294,8 @@ Key points:
 
 This is a **private preview**. Your feedback helps us improve!
 
-- **Report Issues:** [Create an issue](https://github.com/your-org/cosmos-db-shell-preview/issues)
-- **Feature Requests:** [Submit feedback](https://github.com/your-org/cosmos-db-shell-preview/discussions)
+- **Report Issues:** [Create an issue](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/issues)
+- **Feature Requests:** [Submit feedback](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/discussions)
 - **Questions:** Reach out to the Cosmos DB team
 
 ---

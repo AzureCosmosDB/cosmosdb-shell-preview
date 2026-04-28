@@ -6,17 +6,20 @@ This guide provides detailed instructions for installing and configuring Azure C
 
 - **VS Code** version 1.103 or later (for MCP auto-start support)
 - **Azure Account** with access to Azure Cosmos DB resources
-- **.NET SDK 9.0.301** or later (required to install the shell as a .NET global tool)
+- **.NET SDK 10.0** or later (required to install the shell as a .NET global tool)
 
 ## Downloads
 
-The **Cosmos Shell** is distributed as a .NET global tool on NuGet — no manual downloads or extraction required. See [Step 2](#step-2-install-cosmos-shell-from-nuget) below.
+The latest preview builds are available from the [cosmosdb-shell-preview-1.0.213 GitHub release](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview-1.0.213). The release contains ZIP archives with the self-contained shell executable and the latest VS Code extension VSIX.
 
-The **VS Code Extension** is available from the [GitHub Releases page](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview):
-
-| Component | Download |
-|-----------|----------|
-| **VS Code Extension** | [vscode-cosmosdb-0.31.1.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview/vscode-cosmosdb-0.31.1.vsix) |
+| Component | Platform | Version | Download |
+|-----------|----------|---------|----------|
+| **Cosmos Shell ZIP** | Windows x64 | 1.0.213-preview | [cosmos_shell_win-x64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_win-x64_1.0.213-preview.zip) |
+| **Cosmos Shell ZIP** | macOS x64 | 1.0.213-preview | [cosmos_shell_osx-x64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_osx-x64_1.0.213-preview.zip) |
+| **Cosmos Shell ZIP** | macOS arm64 | 1.0.213-preview | [cosmos_shell_osx-arm64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_osx-arm64_1.0.213-preview.zip) |
+| **Cosmos Shell ZIP** | Linux x64 | 1.0.213-preview | [cosmos_shell_linux-x64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_linux-x64_1.0.213-preview.zip) |
+| **Cosmos Shell ZIP** | Linux arm64 | 1.0.213-preview | [cosmos_shell_linux-arm64_1.0.213-preview.zip](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/cosmos_shell_linux-arm64_1.0.213-preview.zip) |
+| **VS Code Extension** | All platforms | 0.33.3 | [vscode-cosmosdb-0.33.3.vsix](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/download/cosmosdb-shell-preview-1.0.213/vscode-cosmosdb-0.33.3.vsix) |
 
 ---
 
@@ -24,7 +27,7 @@ The **VS Code Extension** is available from the [GitHub Releases page](https://g
 
 ### Method A: Install via VSIX Menu
 
-1. Download `vscode-cosmosdb-0.31.1.vsix` from the links above
+1. Download `vscode-cosmosdb-0.33.3.vsix` from the links above
 2. Open **VS Code**
 3. Open the **Extensions** sidebar:
    - Press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (macOS)
@@ -37,7 +40,7 @@ The **VS Code Extension** is available from the [GitHub Releases page](https://g
 
 ### Method B: Drag and Drop
 
-1. Download `vscode-cosmosdb-0.31.1.vsix`
+1. Download `vscode-cosmosdb-0.33.3.vsix`
 2. Open VS Code with the Extensions sidebar visible
 3. Drag the `.vsix` file and drop it into the Extensions sidebar
 4. Confirm the installation
@@ -46,7 +49,7 @@ The **VS Code Extension** is available from the [GitHub Releases page](https://g
 ### Method C: Command Line
 
 ```bash
-code --install-extension /path/to/vscode-cosmosdb-0.31.1.vsix
+code --install-extension /path/to/vscode-cosmosdb-0.33.3.vsix
 ```
 
 Then restart VS Code.
@@ -79,9 +82,9 @@ dotnet tool update --global CosmosDBShell --prerelease
 
 ### Alternative: Self-contained ZIP downloads (no .NET SDK required)
 
-If you can't or don't want to use NuGet / `dotnet tool`, self-contained preview builds are published as ZIP files on the [`Azure/CosmosDBShell` releases page](https://github.com/Azure/CosmosDBShell/releases/tag/1.0-preview). These bundles include the .NET runtime, so no .NET SDK install is needed.
+If you can't or don't want to use NuGet / `dotnet tool`, self-contained preview builds are published as ZIP files on the [cosmosdb-shell-preview-1.0.213 GitHub release](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview-1.0.213). These bundles include the .NET runtime, so no .NET SDK install is needed.
 
-1. Download the ZIP for your platform (Windows, macOS, or Linux — including ARM) from the [1.0-preview release](https://github.com/Azure/CosmosDBShell/releases/tag/1.0-preview).
+1. Download the ZIP for your platform (Windows, macOS, or Linux — including ARM) from the [cosmosdb-shell-preview-1.0.213 release](https://github.com/AzureCosmosDB/cosmosdb-shell-preview/releases/tag/cosmosdb-shell-preview-1.0.213).
 2. Extract the archive to a permanent location.
 3. **macOS/Linux only** — mark the executable as runnable, and on macOS remove the quarantine attribute:
 
@@ -91,13 +94,11 @@ If you can't or don't want to use NuGet / `dotnet tool`, self-contained preview 
    xattr -d com.apple.quarantine /path/to/CosmosDBShell
    ```
 
-4. When configuring VS Code in [Step 3](#step-3-configure-vs-code-settings), set `cosmosDB.shell.path` to the **full absolute path** of the extracted executable instead of the short command name.
+4. Configure `cosmosDB.shell.path` to the **full absolute path** of the extracted executable.
 
----
+#### Configure VS Code Settings
 
-## Step 3: Configure VS Code Settings
-
-You need to tell VS Code where to find the Cosmos Shell executable.
+Only configure `cosmosDB.shell.path` if you are using a self-contained ZIP or VS Code cannot find the globally installed `CosmosDBShell` command.
 
 ### Method A: Settings UI
 
@@ -106,7 +107,7 @@ You need to tell VS Code where to find the Cosmos Shell executable.
    - Or go to **File** → **Preferences** → **Settings**
 2. Search for `cosmosDB.shell.path`
 3. Click **"Edit in settings.json"**
-4. Add the path to your executable
+4. Add the full absolute path to your executable
 
 ### Method B: Edit settings.json Directly
 
@@ -117,22 +118,20 @@ You need to tell VS Code where to find the Cosmos Shell executable.
 **Windows:**
 ```json
 {
-    "cosmosDB.shell.path": "CosmosDBShell.exe"
+   "cosmosDB.shell.path": "C:\\path\\to\\CosmosDBShell.exe"
 }
 ```
 
 **macOS/Linux:**
 ```json
 {
-    "cosmosDB.shell.path": "CosmosDBShell"
+   "cosmosDB.shell.path": "/path/to/CosmosDBShell"
 }
 ```
 
-> 💡 Since `CosmosDBShell` is installed as a .NET global tool and available on your `PATH`, you can simply use the command name. If your `PATH` isn't picked up by VS Code, use the full absolute path instead (e.g., `%USERPROFILE%\\.dotnet\\tools\\CosmosDBShell.exe` on Windows or `~/.dotnet/tools/CosmosDBShell` on macOS/Linux).
-
 ---
 
-## Step 4: Verify Installation
+## Step 3: Verify Installation
 
 1. Open VS Code
 2. Open the **Azure** sidebar (click the Azure icon in the Activity Bar)
@@ -169,7 +168,7 @@ Restart your terminal (and VS Code) after installing the tool so the updated `PA
 
 ### `dotnet` command not found
 
-Install the [.NET SDK 9.0.301 or later](https://dotnet.microsoft.com/download), then re-run:
+Install the [.NET SDK 10.0 or later](https://dotnet.microsoft.com/download), then re-run:
 
 ```bash
 dotnet tool install --global CosmosDBShell --prerelease
